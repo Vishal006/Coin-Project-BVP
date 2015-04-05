@@ -3,6 +3,8 @@ package com.example.homeautomation;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -72,6 +74,42 @@ public class Welcome extends Activity {
     	
     }); 
   }
+    
+    
+	  public void onBackPressed() {
+	        //Display alert message when back button has been pressed
+	        backButtonHandler();
+	        return;
+	    }
+
+	    public void backButtonHandler() {
+	        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+	                Welcome.this);
+	        // Setting Dialog Title
+	        alertDialog.setTitle("Leave application?");
+	        // Setting Dialog Message
+	        alertDialog.setMessage("Do you want to Logout?");
+	        // Setting Icon to Dialog
+	        alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+	        // Setting Positive "Yes" Button
+	        alertDialog.setPositiveButton("YES",
+	                new DialogInterface.OnClickListener() {
+	                    public void onClick(DialogInterface dialog, int which) {
+	                        finish();
+	                    }
+	                });
+	        // Setting Negative "NO" Button
+	        alertDialog.setNegativeButton("NO",
+	                new DialogInterface.OnClickListener() {
+	                    public void onClick(DialogInterface dialog, int which) {
+	                        // Write your code here to invoke NO event
+	                        dialog.cancel();
+	                    }
+	                });
+	        // Showing Alert Message
+	        alertDialog.show();
+	    }
+	    
 
 
     class AttemptLogin extends AsyncTask<String, String, ArrayList<Appliance>>
@@ -108,18 +146,18 @@ public class Welcome extends Activity {
 	        	
 	        	//make the request
 	        	response = httpclient.execute(new HttpGet(ACC_URL));
-	        	   StatusLine statusLine = response.getStatusLine();
-   	            if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-   	                ByteArrayOutputStream out = new ByteArrayOutputStream();
-   	                response.getEntity().writeTo(out);
-   	                responseString = out.toString();
-   	                out.close();
-   	            } else{
-   	                //Closes the connection.
-   	                response.getEntity().getContent().close();
-   	                throw new IOException(statusLine.getReasonPhrase());
-   	            }
 	        
+	        	 StatusLine statusLine = response.getStatusLine();
+		            if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+		                ByteArrayOutputStream out = new ByteArrayOutputStream();
+		                response.getEntity().writeTo(out);
+		                responseString = out.toString();
+		                out.close();
+		            } else{
+		                //Closes the connection.
+		                response.getEntity().getContent().close();
+		                throw new IOException(statusLine.getReasonPhrase());
+		            }
 	        	//pass the data into json object
 	        	JSONObject get_string = new JSONObject(responseString); 
 
@@ -149,7 +187,7 @@ public class Welcome extends Activity {
 	            }
 	            
 	            
-	         
+	           
 	        } catch (ClientProtocolException e) {
 	            //TODO Handle problems..
 	        } catch (IOException e) {
@@ -214,6 +252,9 @@ return null;
     	    	if (message != null){
     	    		Toast.makeText(Welcome.this, message, Toast.LENGTH_LONG).show();
     	    		} }
+
+
+    	
 
 
 

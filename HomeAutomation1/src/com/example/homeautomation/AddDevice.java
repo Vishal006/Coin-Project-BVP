@@ -8,37 +8,29 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+
+
+
 public class AddDevice extends Activity {
-Button bac,sub;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add);
-        bac = (Button)findViewById(R.id.imageButton2);
+     
+    	getActionBar().setDisplayHomeAsUpEnabled(true);   
         
-        bac.setOnClickListener(new OnClickListener() {
+    	  
+        
+        
+    	Intent intent = new Intent(getApplicationContext(),Dashboard.class);
 
-    		@Override
-    		public void onClick(View v) {
-    			// TODO Auto-generated method stub
-    			Intent i = new Intent(getBaseContext(),Dashboard.class);
-    			startActivity(i);
-    		}
-        	
-        });
-        sub = (Button)findViewById(R.id.imageButton2);
-        
-        sub.setOnClickListener(new OnClickListener() {
-
-    		@Override
-    		public void onClick(View v) {
-    			// TODO Auto-generated method stub
-    			Intent i = new Intent(getBaseContext(),Dashboard.class);
-    			startActivity(i);
-    		}
-        	
-        });
-        
-    }
+       
+    	EditText editText = (EditText) findViewById(R.id.float_label_2);
+    	String message = editText.getText().toString();
+    	intent.putExtra("txtData", message);
+    }    
 
 }
